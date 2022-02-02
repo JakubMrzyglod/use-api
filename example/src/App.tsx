@@ -1,10 +1,28 @@
 import React from 'react'
 
-import { ExampleComponent } from 'use-api'
-import 'use-api/dist/index.css'
+import { useApi, Path, ShowToast } from 'use-api'
 
-const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+export const apiPath: Record<string, Record<string, Path>> = {
+  auth: {
+    login: ['post', '/auth/login']
+  }
 }
 
-export default App
+export type LoginRes = {
+  token: string
+}
+
+export type LoginReq = {
+  email: string
+  password: string
+}
+
+export const App = () => {
+  const loginUser = (data: any) => console.log(data)
+  const loginApiConfig = {
+    showToast: ShowToast.ON_ERROR,
+    onSuccess: loginUser
+  }
+  const api = useApi<LoginRes, LoginReq>(apiPath.auth.login, loginApiConfig)
+  return <>test</>
+}
